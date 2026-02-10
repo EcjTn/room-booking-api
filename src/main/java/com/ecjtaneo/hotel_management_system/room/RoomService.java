@@ -5,17 +5,22 @@ import com.ecjtaneo.hotel_management_system.common.exception.ResourceConflictExc
 import com.ecjtaneo.hotel_management_system.common.exception.ResourceNotFoundException;
 import com.ecjtaneo.hotel_management_system.room.dto.RoomCreationDto;
 import com.ecjtaneo.hotel_management_system.room.model.Room;
+import com.ecjtaneo.hotel_management_system.user.mapper.RoomMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RoomService {
-    private RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
+    private final RoomMapper roomMapper;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, RoomMapper roomMapper) {
         this.roomRepository = roomRepository;
+        this.roomMapper = roomMapper;
     }
 
     public MessageResponseDto createNewRoom(RoomCreationDto roomCreationDto) {
         if(roomRepository.existsByRoomNumber(roomCreationDto.roomNumber())) throw new ResourceConflictException("Room already exists");
+        Room room = roomMapper.toEntity(roomCreationDto);
+        roomRepository.save(room);
 
         return new MessageResponseDto("Room successfully created.");
     }
