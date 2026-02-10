@@ -21,6 +21,7 @@ public class WebSecurityConfig {
                 .httpBasic(h -> h.disable())
                 .logout(l -> l.disable())
                 .authorizeHttpRequests(a -> a
+                        .requestMatchers("/auth/logout").authenticated()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .build();
