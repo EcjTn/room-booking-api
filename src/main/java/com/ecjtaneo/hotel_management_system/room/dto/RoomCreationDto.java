@@ -1,0 +1,22 @@
+package com.ecjtaneo.hotel_management_system.room.dto;
+
+
+import com.ecjtaneo.hotel_management_system.room.model.RoomStatus;
+import com.ecjtaneo.hotel_management_system.room.model.RoomType;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+
+public record RoomCreationDto(
+        @NotNull
+        String roomNumber,
+
+        @NotNull
+        RoomStatus status,
+
+        @NotNull
+        RoomType type,
+
+        @NotNull
+        BigDecimal price
+) {}

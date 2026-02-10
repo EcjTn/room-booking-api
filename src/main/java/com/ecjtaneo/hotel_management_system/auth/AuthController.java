@@ -3,14 +3,15 @@ package com.ecjtaneo.hotel_management_system.auth;
 
 import com.ecjtaneo.hotel_management_system.auth.dto.AuthLoginDto;
 import com.ecjtaneo.hotel_management_system.auth.dto.AuthRegisterDto;
-import com.ecjtaneo.hotel_management_system.auth.dto.AuthTokensDto;
 import com.ecjtaneo.hotel_management_system.common.dto.MessageResponseDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,35 +31,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MessageResponseDto> login(@RequestBody @Valid AuthLoginDto user) {
-        AuthTokensDto tokens = authService.login(user);
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDto login(@RequestBody @Valid AuthLoginDto user, HttpServletRequest request) {
+        Authentication authentication = authService.login(user);
 
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_COOKIE_NAME, tokens.refreshToken())
-                .httpOnly(true)
-                .sameSite("Lax")
-                .secure(false) //true in production
-                .build();
+        HttpSession session = request.getSession(true);
 
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .header(HttpHeaders.SET_COOKIE, cookie.toString())
-            .body(new MessageResponseDto(tokens.accessToken()));
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+
+        return new MessageResponseDto("Successfully logged in.");
     }
 
-
-    @PostMapping("/refresh")
-    public ResponseEntity<MessageResponseDto> refreshToken(@CookieValue("refresh_token") String refreshToken) {
-        AuthTokensDto tokens = authService.refreshToken(refreshToken);
-
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN_COOKIE_NAME, refreshToken)
-                .httpOnly(true)
-                .sameSite("Lax")
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponseDto(tokens.accessToken()));
+    @DeleteMapping("/logout")
+    public MessageResponseDto logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return new MessageResponseDto("Successfully logged out.");
     }
 
 }

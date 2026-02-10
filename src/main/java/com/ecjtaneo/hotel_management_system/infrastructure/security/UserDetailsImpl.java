@@ -1,5 +1,6 @@
 package com.ecjtaneo.hotel_management_system.infrastructure.security;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ecjtaneo.hotel_management_system.user.model.User;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails, Serializable {
     private final User user;
     public UserDetailsImpl(User user) {
         this.user = user;
