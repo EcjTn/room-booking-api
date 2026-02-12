@@ -60,6 +60,7 @@ public class RoomService {
         return new MessageResponseDto("Room successfully deleted.");
     }
 
+    //only used by admins, manual update when actual rooms need changes.
     @Transactional
     public MessageResponseDto updateRoom(String roomNumber, RoomUpdateDto roomUpdateDto){
         Room room = roomRepository.findByRoomNumber(roomNumber)
@@ -70,6 +71,26 @@ public class RoomService {
         room.setPrice_per_night(roomUpdateDto.price_per_night());
 
         return new MessageResponseDto("Room successfully updated.");
+    }
+
+    public Room findAvailableRoom(String roomNumber) {
+        return roomRepository.findByRoomNumberAndStatus(roomNumber, RoomStatus.AVAILABLE)
+                .orElseThrow(() -> new ResourceNotFoundException("No available rooms found."));
+    }
+
+    @Transactional
+    public int markRoomBooked(String roomNumber) {
+        return roomRepository.updateStatusByRoomNumber(roomNumber, RoomStatus.BOOKED);
+    }
+
+    @Transactional
+    public int markRoomOccupied(String roomNumber) {
+        return roomRepository.updateStatusByRoomNumber(roomNumber, RoomStatus.OCCUPIED);
+    }
+
+    @Transactional
+    public int markRoomAvailable(String roomNumber) {
+        return roomRepository.updateStatusByRoomNumber(roomNumber, RoomStatus.AVAILABLE);
     }
 
 }

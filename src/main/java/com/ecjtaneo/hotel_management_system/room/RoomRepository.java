@@ -4,6 +4,8 @@ import com.ecjtaneo.hotel_management_system.room.model.Room;
 import com.ecjtaneo.hotel_management_system.room.model.RoomStatus;
 import com.ecjtaneo.hotel_management_system.room.model.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +25,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     public List<Room> findTop10ByStatusAndTypeAndIdLessThanOrderByIdDesc(Long lastSeenId, RoomStatus status, RoomType type);
 
-    public void updateStatusByRoomNumber(String roomNumber, RoomStatus status);
+    @Modifying
+    @Query("""
+            UPDATE Room r
+            SET r.status = :status
+            WHERE r.roomNumber = :roomNumber
+            """)
+    public int updateStatusByRoomNumber(String roomNumber, RoomStatus status);
 
     public Optional<Room> findByRoomNumberAndStatus(String roomNumber, RoomStatus status);
 }
