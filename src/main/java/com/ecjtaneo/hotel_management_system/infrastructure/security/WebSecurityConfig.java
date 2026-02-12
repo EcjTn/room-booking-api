@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/logout").authenticated()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/rooms/**").hasAuthority("GUESTS")
+                        .requestMatchers(HttpMethod.GET, "/rooms/**").hasAuthority("GUEST")
                         .requestMatchers("/rooms/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .build();
