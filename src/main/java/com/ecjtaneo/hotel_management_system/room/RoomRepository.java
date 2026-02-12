@@ -23,7 +23,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     public List<Room> findTop10ByStatusAndType(RoomStatus status, RoomType type);
 
-    public List<Room> findTop10ByStatusAndTypeAndIdLessThanOrderByIdDesc(Long lastSeenId, RoomStatus status, RoomType type);
+    public List<Room> findTop10ByStatusAndTypeAndIdLessThanOrderByIdDesc(RoomStatus status, RoomType type, Long lastSeenId);
 
     @Modifying
     @Query("""

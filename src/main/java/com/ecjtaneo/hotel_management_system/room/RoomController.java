@@ -38,7 +38,7 @@ public class RoomController {
             @RequestParam(name = "cursor", required = false) Long cursor
     ) {
         if(cursor == null) return roomService.showRoomsByFilters(status, type);
-        return roomService.showRoomsByFiltersBefore(cursor, status, type);
+        return roomService.showRoomsByFiltersBefore(status, type, cursor);
     }
 
     @PostMapping

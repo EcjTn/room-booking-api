@@ -45,8 +45,8 @@ public class RoomService {
         return roomMapper.toDtoList(roomRepository.findTop10ByStatusAndType(status, type));
     }
 
-    public List<RoomPublicResponseDto> showRoomsByFiltersBefore(Long lastSeenId, RoomStatus status, RoomType type) {
-        return roomMapper.toDtoList(roomRepository.findTop10ByStatusAndTypeAndIdLessThanOrderByIdDesc(lastSeenId, status, type));
+    public List<RoomPublicResponseDto> showRoomsByFiltersBefore(RoomStatus status, RoomType type, Long lastSeenId) {
+        return roomMapper.toDtoList(roomRepository.findTop10ByStatusAndTypeAndIdLessThanOrderByIdDesc(status, type, lastSeenId));
     }
 
     public RoomPublicResponseDto findByRoomNumber(String roomNumber) {
