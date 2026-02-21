@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,8 +28,8 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private BigDecimal totalAmount;
 
     private final LocalDateTime createdAt = LocalDateTime.now();
