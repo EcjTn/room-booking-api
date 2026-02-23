@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    public void deleteBooking(Long id);
+    public void deleteBookingById(Long id);
 
     @Modifying
     @Query("""
