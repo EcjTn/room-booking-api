@@ -12,6 +12,7 @@ import com.ecjtaneo.hotel_management_system.user.model.User;
 
 public class UserDetailsImpl implements UserDetails, Serializable {
     private final String userRole;
+    private final Long userId;
     private final String username;
     private final String userPassword;
 
@@ -19,6 +20,7 @@ public class UserDetailsImpl implements UserDetails, Serializable {
         this.username = user.getUsername();
         this.userPassword = user.getPassword();
         this.userRole = user.getRole().name();
+        this.userId = user.getId();
     }
 
     @Override
@@ -34,5 +36,9 @@ public class UserDetailsImpl implements UserDetails, Serializable {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    public Long getUserId() {
+        return this.userId;
     }
 }
