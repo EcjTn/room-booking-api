@@ -22,5 +22,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     public int updateStatusById(Long id, BookingStatus status);
 
     @EntityGraph(attributePaths = {"user", "room"})
-    public Optional<Booking> findByIdWithUserAndRoom(Long id);
+    public Optional<Booking> findWithUserAndRoomById(Long id);
 }
