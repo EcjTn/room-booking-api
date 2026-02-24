@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
@@ -23,7 +23,6 @@ public class BookingController {
     public MessageResponseDto createBooking(
             @RequestBody @Valid BookingCreationDto bookingCreationDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         Long userId = userDetails.getUserId();
         return bookingService.createBooking(bookingCreationDto, userId);
     }
