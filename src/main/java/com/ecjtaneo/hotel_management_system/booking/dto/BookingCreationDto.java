@@ -1,14 +1,14 @@
 package com.ecjtaneo.hotel_management_system.booking.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
 public record BookingCreationDto(
-        @NotNull
+        @NotBlank
         String roomNumber,
-        @NotNull
+        @NotBlank
         LocalDate startDate,
-        @NotNull
+        @NotBlank
         LocalDate endDate
 ) {}
