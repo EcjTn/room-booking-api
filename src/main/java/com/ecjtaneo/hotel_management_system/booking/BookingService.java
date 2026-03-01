@@ -11,6 +11,7 @@ import com.ecjtaneo.hotel_management_system.room.model.Room;
 import com.ecjtaneo.hotel_management_system.user.UserService;
 import com.ecjtaneo.hotel_management_system.user.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -55,6 +56,19 @@ public class BookingService {
     public MessageResponseDto deleteBooking(Long id) {
         if(bookingRepository.deleteBookingById(id) <= 0) throw new ResourceNotFoundException("Booking not found");
         return new MessageResponseDto("Booking successfully deleted.");
+    }
+
+    @Transactional
+    public MessageResponseDto cancelBooking(Long id) {
+        Booking booking = bookingRepository.findWithRoomById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        booking.setStatus(BookingStatus.CANCELLED);
+        roomService.markRoomAvailable(booking.getRoom().getRoomNumber());
+        return new MessageResponseDto("Booking successfully cancelled.");
+    }
+
+    public boolean canCancelBooking(Long id, Long userId) {
+        return bookingRepository.existsBookingByIdAndUserId(id, userId);
     }
 
 }
