@@ -29,10 +29,12 @@ public class WebSecurityConfig {
 
                         .requestMatchers(HttpMethod.DELETE, "/bookings/**").hasAuthority("ADMIN")
                         .requestMatchers("/bookings/**").hasAnyAuthority("ADMIN", "GUEST")
+                        .requestMatchers("/bookings/confirm/**").hasAuthority("ADMIN")
+                        .requestMatchers("/bookings/complete/**").hasAuthority("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/rooms/**").hasAuthority("GUEST")
-
+                        .requestMatchers(HttpMethod.GET, "/rooms/**").hasAnyAuthority("ADMIN", "GUEST")
                         .requestMatchers("/rooms/**").hasAuthority("ADMIN")
+
                         .anyRequest().authenticated())
                 .build();
     }

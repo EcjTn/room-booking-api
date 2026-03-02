@@ -4,7 +4,6 @@ import com.ecjtaneo.hotel_management_system.booking.dto.BookingCreationDto;
 import com.ecjtaneo.hotel_management_system.common.dto.MessageResponseDto;
 import com.ecjtaneo.hotel_management_system.infrastructure.security.UserDetailsImpl;
 import jakarta.validation.Valid;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +34,16 @@ public class BookingController {
     @PreAuthorize("hasAuthority('ADMIN') or @bookingService.canCancelBooking(#id, principal.userId)")  //principal is automatically available in spel expressions inside @PreAuthorize
     public MessageResponseDto cancelBooking(@PathVariable("id") Long id) {
         return bookingService.cancelBooking(id);
+    }
+
+    @PatchMapping("/confirm/{id}")
+    public MessageResponseDto confirmBooking(@PathVariable("id") Long id) {
+        return bookingService.confirmBooking(id);
+    }
+
+    @PatchMapping("/complete/{id}")
+    public MessageResponseDto completeBooking(@PathVariable("id") Long id) {
+        return bookingService.completeBooking(id);
     }
 
 }
