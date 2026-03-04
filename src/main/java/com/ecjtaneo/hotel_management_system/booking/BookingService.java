@@ -85,8 +85,6 @@ public class BookingService {
         roomService.markRoomOccupied(booking.getRoom().getRoomNumber());
         booking.setStatus(BookingStatus.CONFIRMED);
 
-        booking.setStatus(BookingStatus.CONFIRMED);
-
         return new MessageResponseDto("Booking successfully confirmed.");
     }
 
