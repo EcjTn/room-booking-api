@@ -1,0 +1,15 @@
+package com.ecjtaneo.hotel_management_system.booking.dto;
+
+import com.ecjtaneo.hotel_management_system.booking.model.BookingStatus;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public record BookingPublicResponseDto(
+        Long id,
+        String roomNumber,
+        BookingStatus status,
+        LocalDate startDate,
+        LocalDate endDate,
+        BigDecimal totalAmount
+) {}
