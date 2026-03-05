@@ -1,6 +1,7 @@
 package com.ecjtaneo.hotel_management_system.booking;
 
 import com.ecjtaneo.hotel_management_system.booking.dto.BookingCreationDto;
+import com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto;
 import com.ecjtaneo.hotel_management_system.booking.model.Booking;
 import com.ecjtaneo.hotel_management_system.booking.model.BookingStatus;
 import com.ecjtaneo.hotel_management_system.common.dto.MessageResponseDto;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -76,6 +78,14 @@ public class BookingService {
 
     public boolean canCancelBooking(Long id, Long userId) {
         return bookingRepository.existsBookingByIdAndUserId(id, userId);
+    }
+
+    public List<BookingPublicResponseDto> showBookings(Long userId) {
+        return bookingRepository.findTop10ByUserIdOrderByIdDesc(userId);
+    }
+
+    public List<BookingPublicResponseDto> showBookingsBefore(Long lastSeenId, Long userId) {
+        return bookingRepository.findTop10ByIdLessThanAndUserIdOrderByIdDesc(lastSeenId, userId);
     }
 
     //Admins only operations
