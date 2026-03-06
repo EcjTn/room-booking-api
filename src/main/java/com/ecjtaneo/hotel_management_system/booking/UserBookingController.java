@@ -2,6 +2,7 @@ package com.ecjtaneo.hotel_management_system.booking;
 
 import com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto;
 import com.ecjtaneo.hotel_management_system.infrastructure.security.UserDetailsImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class UserBookingController {
     }
 
     @GetMapping("/{id}/bookings")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<BookingPublicResponseDto> showBookingsByUserId(
             @RequestParam(name = "cursor", required = false) Long cursor,
             @PathVariable("id") Long userId
