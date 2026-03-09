@@ -4,11 +4,10 @@ import com.ecjtaneo.hotel_management_system.booking.dto.BookingCreationDto;
 import com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto;
 import com.ecjtaneo.hotel_management_system.booking.model.Booking;
 import com.ecjtaneo.hotel_management_system.booking.model.BookingStatus;
+import com.ecjtaneo.hotel_management_system.booking.model.PaymentStatus;
 import com.ecjtaneo.hotel_management_system.common.dto.MessageResponseDto;
 import com.ecjtaneo.hotel_management_system.common.exception.ResourceNotFoundException;
 import com.ecjtaneo.hotel_management_system.common.exception.ValidationException;
-import com.ecjtaneo.hotel_management_system.payment.PaymentService;
-import com.ecjtaneo.hotel_management_system.payment.dto.PaymentCreationDto;
 import com.ecjtaneo.hotel_management_system.room.RoomService;
 import com.ecjtaneo.hotel_management_system.room.model.Room;
 import com.ecjtaneo.hotel_management_system.user.UserService;
@@ -24,13 +23,11 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final UserService userService;
-    private final PaymentService paymentService;
 
-    public BookingService(BookingRepository bookingRepository, RoomService roomService, UserService userService, PaymentService paymentService) {
+    public BookingService(BookingRepository bookingRepository, RoomService roomService, UserService userService) {
         this.bookingRepository = bookingRepository;
         this.roomService = roomService;
         this.userService = userService;
-        this.paymentService = paymentService;
     }
 
     public MessageResponseDto createBooking(BookingCreationDto bookingCreationDto, Long userId) {
@@ -57,7 +54,6 @@ public class BookingService {
         booking.setStatus(BookingStatus.PENDING);
 
         bookingRepository.save(booking);
-        paymentService.createNewPayment(new PaymentCreationDto(booking.getId(), totalAmount));
 
         return new MessageResponseDto("Booking successfully created.");
     }
@@ -92,10 +88,6 @@ public class BookingService {
         return bookingRepository.findTop10ByIdLessThanAndUserIdOrderByIdDesc(lastSeenId, userId);
     }
 
-    public Booking getBookingReference(Long id) {
-        return bookingRepository.getReferenceById(id);
-    }
-
     //Admins only operations
 
     @Transactional
@@ -105,6 +97,7 @@ public class BookingService {
 
         roomService.markRoomOccupied(booking.getRoom().getRoomNumber());
         booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setPaymentStatus(PaymentStatus.PAID);
 
         return new MessageResponseDto("Booking successfully confirmed.");
     }

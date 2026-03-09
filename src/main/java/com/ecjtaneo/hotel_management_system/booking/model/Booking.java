@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "bookings", indexes = {
         @Index(name = "idx_user_id", columnList = "room_id"),
         @Index(name = "idx_user_id", columnList = "user_id"),
-        @Index(name = "idx_status", columnList = "status")
+        @Index(name = "idx_status", columnList = "status"),
+        @Index(name = "idx_payment_status", columnList = "payment_status")
 })
 public class Booking {
     @Id
@@ -36,8 +37,12 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.UNPAID;
+
     private LocalDate startDate;
     private LocalDate endDate;
+    private BigDecimal totalAmount;
 
     private final LocalDateTime createdAt = LocalDateTime.now();
 }
