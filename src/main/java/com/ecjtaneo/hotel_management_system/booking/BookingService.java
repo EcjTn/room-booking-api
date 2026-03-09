@@ -50,6 +50,7 @@ public class BookingService {
 
         booking.setStartDate(bookingCreationDto.startDate());
         booking.setEndDate(bookingCreationDto.endDate());
+        booking.setTotalAmount(totalAmount);
 
         booking.setStatus(BookingStatus.PENDING);
 
