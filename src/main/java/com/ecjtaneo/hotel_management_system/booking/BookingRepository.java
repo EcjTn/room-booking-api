@@ -41,6 +41,43 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     public long countByStatus(BookingStatus status);
 
     @Query("""
+        SELECT new com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto(
+            b.id,
+            r.roomNumber,
+            b.status,
+            b.startDate,
+            b.endDate,
+            b.totalAmount,
+            b.paymentStatus
+        )
+        FROM Booking b
+        JOIN b.room r
+        ORDER BY b.id DESC
+        LIMIT 10
+    """)
+    public List<BookingPublicResponseDto> findTop10OrderByIdDesc();
+    
+
+    @Query("""
+        SELECT new com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto(
+            b.id,
+            r.roomNumber,
+            b.status,
+            b.startDate,
+            b.endDate,
+            b.totalAmount,
+            b.paymentStatus
+        )
+        FROM Booking b
+        JOIN b.room r
+        WHERE b.id < :lastSeenId
+        ORDER BY b.id DESC
+        LIMIT 10
+    """)
+    public List<BookingPublicResponseDto> findTop10OrderByIdDescBefore(Long lastSeenId);
+    
+
+    @Query("""
         SELECT COALESCE(SUM(b.totalAmount), 0)
         FROM Booking b
         WHERE b.paymentStatus = :paymentStatus

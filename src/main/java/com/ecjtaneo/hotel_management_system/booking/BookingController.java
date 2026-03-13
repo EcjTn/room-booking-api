@@ -1,12 +1,15 @@
 package com.ecjtaneo.hotel_management_system.booking;
 
 import com.ecjtaneo.hotel_management_system.booking.dto.BookingCreationDto;
+import com.ecjtaneo.hotel_management_system.booking.dto.BookingPublicResponseDto;
 import com.ecjtaneo.hotel_management_system.common.dto.MessageResponseDto;
 import com.ecjtaneo.hotel_management_system.infrastructure.security.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/bookings")
@@ -15,6 +18,12 @@ public class BookingController {
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
+    }
+
+    @GetMapping
+    public List<BookingPublicResponseDto> showBookings(@RequestParam(name = "cursor", required = false) Long cursor) {
+        if(cursor == null) return bookingService.getRecentBookings();
+        return bookingService.getRecentBookingsBefore(cursor);
     }
 
     @PostMapping

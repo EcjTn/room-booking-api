@@ -82,6 +82,14 @@ public class BookingService {
         return bookingRepository.existsBookingByIdAndUserId(id, userId);
     }
 
+    public List<BookingPublicResponseDto> getRecentBookings() {
+        return bookingRepository.findTop10OrderByIdDesc();
+    }
+
+    public List<BookingPublicResponseDto> getRecentBookingsBefore(Long lastSeenId) {
+        return bookingRepository.findTop10OrderByIdDescBefore(lastSeenId);
+    }
+
     public List<BookingPublicResponseDto> getBookingsByUserId(Long userId) {
         return bookingRepository.findTop10ByUserIdOrderByIdDesc(userId);
     }
