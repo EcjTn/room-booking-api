@@ -27,3 +27,4 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
       RECAPTCHA_SECRET: getOneFromGoogle
+    command: ["java", "-jar", "app.jar"]
