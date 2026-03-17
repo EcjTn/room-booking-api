@@ -3,6 +3,6 @@ WORKDIR /app
 COPY . .
 RUN ./mvnw clean package -DskipTests
 
-FROM eclipse:temurin:21-jre
+FROM eclipse-temurin:21-jre AS runtime
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
