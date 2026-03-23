@@ -7,7 +7,6 @@ import com.ecjtaneo.room_reservation_api.common.exception.ValidationException;
 import com.ecjtaneo.room_reservation_api.infrastructure.security.recaptcha.RecaptchaService;
 import com.ecjtaneo.room_reservation_api.user.UserService;
 import com.ecjtaneo.room_reservation_api.user.dto.UserCreationCommandDto;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +20,7 @@ public class AuthService {
     public AuthService(
         UserService userService,
         PasswordEncoder passwordEncoder,
-        RecaptchaService recaptchaService,
-        AuthenticationManager authenticationManager
+        RecaptchaService recaptchaService
     ) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
