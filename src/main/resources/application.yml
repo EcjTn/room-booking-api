@@ -17,8 +17,8 @@ spring:
     type: redis
 
   redis:
-    host: ${SPRING_REDIS_HOST:localhost}
-    port: ${SPRING_REDIS_PORT:6379}
+    host: ${SPRING_DATA_REDIS_HOST:localhost}
+    port: ${SPRING_DATA_REDIS_PORT:6379}
 
 recaptcha:
   secret: ${RECAPTCHA_SECRET}

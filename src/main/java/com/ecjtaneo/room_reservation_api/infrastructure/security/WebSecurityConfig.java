@@ -20,7 +20,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .cors(cors -> {})
-                .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf(c -> c
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/api/register"))
                 .formLogin(f -> f.disable())
                 .httpBasic(h -> h.disable())
                 .logout(l -> l.disable())
