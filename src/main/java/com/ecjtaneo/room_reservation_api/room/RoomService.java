@@ -93,6 +93,12 @@ public class RoomService {
 
     @Transactional
     @CacheEvict(value = "room", key = "#roomNumber")
+    public int setRoomBookedIfAvailable(String roomNumber) {
+        return roomRepository.updateStatusByRoomNumberAndStatus(roomNumber, RoomStatus.BOOKED, RoomStatus.AVAILABLE);
+    }
+
+    @Transactional
+    @CacheEvict(value = "room", key = "#roomNumber")
     public int setRoomOccupied(String roomNumber) {
         return roomRepository.updateStatusByRoomNumber(roomNumber, RoomStatus.OCCUPIED);
     }
