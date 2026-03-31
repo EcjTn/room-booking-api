@@ -5,6 +5,9 @@ import com.ecjtaneo.room_reservation_api.booking.dto.BookingPublicResponseDto;
 import com.ecjtaneo.room_reservation_api.common.dto.MessageResponseDto;
 import com.ecjtaneo.room_reservation_api.infrastructure.security.UserDetailsImpl;
 import jakarta.validation.Valid;
+
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,11 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @GetMapping
+    public List<BookingPublicResponseDto> showBookings(@RequestParam(name = "cursor", required = false) Long cursor) {
+        if(cursor == null) return bookingService.getRecentBookings();
+        return bookingService.getRecentBookingsBefore(cursor);
+    }
 
     @PostMapping
     public MessageResponseDto createBooking(
