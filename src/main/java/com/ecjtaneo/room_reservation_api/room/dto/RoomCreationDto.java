@@ -19,5 +19,5 @@ public record RoomCreationDto(
         RoomType type,
 
         @NotNull
-        BigDecimal price_per_night
+        BigDecimal pricePerNight
 ) {}

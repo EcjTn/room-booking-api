@@ -40,6 +40,4 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             WHERE r.roomNumber = :roomNumber AND r.status = :oldStatus
             """)
     public int updateStatusByRoomNumberAndStatus(String roomNumber, RoomStatus newStatus, RoomStatus oldStatus);
-
-    public Optional<Room> findByRoomNumberAndStatus(String roomNumber, RoomStatus status);
 }
