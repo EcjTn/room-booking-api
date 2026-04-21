@@ -23,4 +23,4 @@ spring:
       timeout: 60000
 
 recaptcha:
-  secret: ${RECAPTCHA_SECRET}
+  secret: ${RECAPTCHA_SECRET:fallback}
