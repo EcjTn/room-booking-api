@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ecjtaneo</groupId>
-	<artifactId>hotel-management-system</artifactId>
+	<artifactId>room-booking-system-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hotel-management-system</name>
 	<description>Project for Spring Boot</description>
